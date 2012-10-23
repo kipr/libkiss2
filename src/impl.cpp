@@ -165,24 +165,34 @@ void graphics_blit(unsigned char *data, int x, int y, int width, int height)
 
 void graphics_blit_section(unsigned char *data, const int& index, const int& dindex, const int& length)
 {
-	const int actualLength = length + dindex < g_graphics.size()
+	int actualLength = length + dindex < g_graphics.size()
 		? length : g_graphics.size() - dindex;
+	
+	if(actualLength > g_graphics.size()) actualLength = g_graphics.size();
 	if(actualLength <= 0) return;
 	
-	memcpy(&g_graphics.pixels[0] + index * sizeof(Pixel), data + dindex * sizeof(Pixel), actualLength * sizeof(Pixel));
+	for(int i = 0; i < actualLength; ++i) {
+		const unsigned int offset = (i + index) * 3;
+		g_graphics.pixels[dindex + i] = fromTrueColor(data[offset],
+			data[offset + 1], data[offset + 2]);
+	}
 }
 
 void graphics_blit_region(unsigned char *data, int sx, int sy, int ex, int ey, int width, int height, int dx, int dy)
 {
+	if(sx >= ex || sy >= ey) return;
+	if(dx >= g_graphics.width() || dy >= g_graphics.height()) return;
 	ey = ey > height - 1 ? height - 1 : ey;
 
 	const int hsize = ey - sy + 1;
 	for(int i = 0; i < hsize; ++i) {
 		int cols = ex - sx + 1;
 		if(cols + dx > g_graphics.width()) cols -= dx;
+		const int index = (sy + i) * width + sx;
+		const int dindex = (dy + i) * g_graphics.width() + dx;
 		graphics_blit_section(data,
-			(dy + i) * g_graphics.width() + dx,
-			(sy + i) * width + sx,
+			index < 0 ? 0 : index,
+			dindex < 0 ? 0 : dindex,
 			cols);
 	}
 }
