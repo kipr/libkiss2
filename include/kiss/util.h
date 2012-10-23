@@ -8,6 +8,9 @@ extern "C" {
 void fsleep(double seconds);
 void msleep(long milliseconds);
 
+void kiss_srand(int seed);
+int kiss_rand();
+
 #ifdef __cplusplus
 }
 #endif

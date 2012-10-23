@@ -169,10 +169,7 @@ void graphics_blit_section(unsigned char *data, const int& index, const int& din
 		? length : g_graphics.size() - dindex;
 	if(actualLength <= 0) return;
 	
-	for(int i = 0; i < actualLength; ++i) {
-		int off = i + index;
-		g_graphics.pixels[dindex + i] = fromTrueColor(data[off * 3], data[off * 3 + 1], data[off * 3 + 2]);
-	}
+	memcpy(&g_graphics.pixels[0] + index * sizeof(Pixel), data + dindex * sizeof(Pixel), actualLength * sizeof(Pixel));
 }
 
 void graphics_blit_region(unsigned char *data, int sx, int sy, int ex, int ey, int width, int height, int dx, int dy)
