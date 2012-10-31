@@ -22,6 +22,26 @@
 #pragma comment( lib, "user32.lib" )
 #endif
 
+typedef struct D3DXVECTOR4
+{
+	D3DXVECTOR4() {}
+	D3DXVECTOR4(FLOAT x, FLOAT y, FLOAT z, FLOAT w)
+		: x(x), y(y), z(z), w(w)
+	{
+	}
+	FLOAT x, y, z, w;
+} D3DXVECTOR4;
+
+typedef struct D3DXVECTOR2
+{
+	D3DXVECTOR2() {}
+	D3DXVECTOR2(FLOAT x, FLOAT y)
+		: x(x), y(y)
+	{
+	}
+	FLOAT x, y;
+} D3DXVECTOR2;
+
 namespace PixelToaster
 {
 	/// smart pointer for COM interfaces
@@ -1271,7 +1291,6 @@ namespace PixelToaster
 		SmartI<IDirect3DDevice9> device;
 		SmartI<IDirect3DTexture9> primaryTexture;
 		SmartI<IDirect3DTexture9> thingy;
-		SmartI<ID3DXEffect> effect;
 
 		int width;
 		int height;

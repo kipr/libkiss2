@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include <string.h>
+
 using namespace PixelToaster;
 using namespace std;
 
